@@ -8,6 +8,7 @@ const dummyTransactions = [
 ];
 
 const addTransactionitonDOM = (transaction) => {
+  // cria um elemento HTML com o valor da transação
   const operator = transaction.amount < 0 ? "-" : "+";
   const cssClass = transaction.amount < 0 ? "minus" : "plus";
   const amountWithoutoperator = Math.abs(transaction.amount);
@@ -26,8 +27,21 @@ const addTransactionitonDOM = (transaction) => {
   }
 };
 
+const updatebalanceValues = () => {
+  // percorre o array com map e soma os valares usando o reduce
+  const transactionsAmounts = dummyTransactions.map(
+    (transaction) => transaction.amount
+  );
+  const total = transactionsAmounts
+    .reduce((acumulator, transaction) => acumulator + transaction, 0)
+    .toFixed(2);
+  console.log(total);
+};
+
 const init = () => {
+  // Percorre addTransactionitonDOM e atualiza a tela
   dummyTransactions.forEach(addTransactionitonDOM);
+  updatebalanceValues();
 };
 
 init();
