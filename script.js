@@ -6,12 +6,26 @@ const form = document.querySelector("#form");
 const inputTransactionName = document.querySelector("#text");
 const inputTransactionAmount = document.querySelector("#amount");
 
-const dummyTransactions = [
+/* let transactions = [
   { id: 1, name: "Bolo de brigadeiro", amount: -20 },
   { id: 2, name: "Salario", amount: 3800 },
   { id: 3, name: "Hotdog", amount: -10 },
   { id: 4, name: "Suport para notebook", amount: -100 },
-];
+]; */
+
+//Adciona no LocalStorege
+const localStorageTransactios = JSON.parse(
+  localStorage.getItem("transactions")
+);
+let transactions =
+  localStorage.getItem("transactions") !== null ? localStorageTransactios : [];
+
+const removeTransaction = (ID) => {
+  transactions = transactions.filter(
+    (transaction) => transaction.id !== ID
+  );
+  init();
+};
 
 const addTransactionitonDOM = (transaction) => {
   // cria um elemento HTML com o valor da transação
@@ -19,10 +33,12 @@ const addTransactionitonDOM = (transaction) => {
   const cssClass = transaction.amount < 0 ? "minus" : "plus";
   const amountWithoutoperator = Math.abs(transaction.amount);
   const li = document.createElement("li");
-
+  // Cria div com para excluir elemento do campo "Transações"
   li.classList.add(cssClass);
   li.innerHTML = `
-    ${transaction.name} <span>${operator} R$ ${amountWithoutoperator}</span><button class="delete-btn">x</button>
+    ${transaction.name} 
+    <span>${operator} R$ ${amountWithoutoperator}</span>
+    <button class="delete-btn onClick="removeTransaction(${transaction.id})">x</button>
     `;
   transactionUl.prepend(li);
   {
@@ -35,7 +51,7 @@ const addTransactionitonDOM = (transaction) => {
 
 const updatebalanceValues = () => {
   // percorre o array com map e soma os valares usando o reduce
-  const transactionsAmounts = dummyTransactions.map(
+  const transactionsAmounts = transactions.map(
     (transaction) => transaction.amount
   );
   const total = transactionsAmounts
@@ -61,7 +77,7 @@ const updatebalanceValues = () => {
 const init = () => {
   transactionUl.innerHTML = "";
   // Percorre addTransactionitonDOM e atualiza a tela
-  dummyTransactions.forEach(addTransactionitonDOM);
+  transactions.forEach(addTransactionitonDOM);
   updatebalanceValues();
 };
 
@@ -88,7 +104,7 @@ form.addEventListener("submit", (event) => {
   };
 
   // Adiciona no display os input
-  dummyTransactions.push(transaction);
+  transactions.push(transaction);
   init();
 
   inputTransactionName.value = "";
