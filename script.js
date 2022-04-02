@@ -1,4 +1,7 @@
 const transactionUl = document.querySelector("#transactions");
+const incomeDisplay = document.querySelector("#money-plus");
+const expenseDisplay = document.querySelector("#money-minus");
+const balanceDisplay = document.querySelector("#balance");
 
 const dummyTransactions = [
   { id: 1, name: "Bolo de brigadeiro", amount: -20 },
@@ -41,11 +44,15 @@ const updatebalanceValues = () => {
     .reduce((accumulator, value) => accumulator + value, 0)
     .toFixed(2);
   //soma os valores das despesas
-  const expense = transactionsAmounts
-    .filter((value) => value < 0)
-    .reduce((accumulator, value) => accumulator + value, 0)
-    .toFixed(2);
-  console.log(expense);
+  const expense = Math.abs(
+    transactionsAmounts
+      .filter((value) => value < 0)
+      .reduce((accumulator, value) => accumulator + value, 0)
+  ).toFixed(2);
+  //Exibe no display os valores receitas, despesas e total
+  balanceDisplay.textContent = `R$ ${total}`;
+  incomeDisplay.textContent = `R$ ${income}`;
+  expenseDisplay.textContent = `R$ ${expense}`;
 };
 
 const init = () => {
