@@ -33,9 +33,19 @@ const updatebalanceValues = () => {
     (transaction) => transaction.amount
   );
   const total = transactionsAmounts
-    .reduce((acumulator, transaction) => acumulator + transaction, 0)
+    .reduce((accumulator, transaction) => accumulator + transaction, 0)
     .toFixed(2);
-  console.log(total);
+  //faz o calculo do saldo atual
+  const income = transactionsAmounts
+    .filter((value) => value > 0)
+    .reduce((accumulator, value) => accumulator + value, 0)
+    .toFixed(2);
+  //soma os valores das despesas
+  const expense = transactionsAmounts
+    .filter((value) => value < 0)
+    .reduce((accumulator, value) => accumulator + value, 0)
+    .toFixed(2);
+  console.log(expense);
 };
 
 const init = () => {
