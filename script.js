@@ -2,6 +2,9 @@ const transactionUl = document.querySelector("#transactions");
 const incomeDisplay = document.querySelector("#money-plus");
 const expenseDisplay = document.querySelector("#money-minus");
 const balanceDisplay = document.querySelector("#balance");
+const form = document.querySelector("#form");
+const inputTransactionName = document.querySelector("#text");
+const inputTransactionAmount = document.querySelector("#amount");
 
 const dummyTransactions = [
   { id: 1, name: "Bolo de brigadeiro", amount: -20 },
@@ -56,9 +59,38 @@ const updatebalanceValues = () => {
 };
 
 const init = () => {
+  transactionUl.innerHTML = "";
   // Percorre addTransactionitonDOM e atualiza a tela
   dummyTransactions.forEach(addTransactionitonDOM);
   updatebalanceValues();
 };
 
 init();
+
+//Gera número um aleatório
+const genarateID = () => Math.round(Math.random() * 1000);
+
+//Vefica se o input esta vazio alerta caso verdadeiro
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const transactionName = inputTransactionName.value.trim();
+  const transactionsAmount = inputTransactionAmount.value.trim();
+
+  if (transactionName === "" || transactionsAmount === "") {
+    alert("Por favor, digite tant o nome da transação quanto o valor");
+    return;
+  }
+
+  const transaction = {
+    id: genarateID(),
+    name: transactionName,
+    amount: Number(transactionsAmount),
+  };
+
+  // Adiciona no display os input
+  dummyTransactions.push(transaction);
+  init();
+
+  inputTransactionName.value = "";
+  inputTransactionAmount.value = "";
+});
