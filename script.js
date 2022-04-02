@@ -26,4 +26,8 @@ const addTransactionitonDOM = (transaction) => {
   }
 };
 
-addTransactionitonDOM(dummyTransactions[1]);
+const init = () => {
+  dummyTransactions.forEach(addTransactionitonDOM);
+};
+
+init();
