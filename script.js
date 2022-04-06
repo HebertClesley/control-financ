@@ -6,24 +6,17 @@ const form = document.querySelector("#form");
 const inputTransactionName = document.querySelector("#text");
 const inputTransactionAmount = document.querySelector("#amount");
 
-/* let transactions = [
-  { id: 1, name: "Bolo de brigadeiro", amount: -20 },
-  { id: 2, name: "Salario", amount: 3800 },
-  { id: 3, name: "Hotdog", amount: -10 },
-  { id: 4, name: "Suport para notebook", amount: -100 },
-]; */
-
 //Adciona no LocalStorege
-const localStorageTransactios = JSON.parse(
-  localStorage.getItem("transactions")
-);
+let localStorageTransactios = JSON.parse(localStorage.getItem("transactions"));
+
 let transactions =
   localStorage.getItem("transactions") !== null ? localStorageTransactios : [];
 
+//Video pausado em 56:27
 const removeTransaction = (ID) => {
-  transactions = transactions.filter(
-    (transaction) => transaction.id !== ID
-  );
+  transactions = transactions.filter((transaction) => transaction.id !== ID);
+
+  upteLocalStorage();
   init();
 };
 
@@ -38,7 +31,9 @@ const addTransactionitonDOM = (transaction) => {
   li.innerHTML = `
     ${transaction.name} 
     <span>${operator} R$ ${amountWithoutoperator}</span>
-    <button class="delete-btn onClick="removeTransaction(${transaction.id})">x</button>
+    <button class="delete-btn" onClick="removeTransaction(${transaction.id})">
+      x
+    </button>
     `;
   transactionUl.prepend(li);
   {
@@ -83,6 +78,10 @@ const init = () => {
 
 init();
 
+const upteLocalStorage = () => {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+};
+
 //Gera número um aleatório
 const genarateID = () => Math.round(Math.random() * 1000);
 
@@ -106,6 +105,7 @@ form.addEventListener("submit", (event) => {
   // Adiciona no display os input
   transactions.push(transaction);
   init();
+  upteLocalStorage();
 
   inputTransactionName.value = "";
   inputTransactionAmount.value = "";
