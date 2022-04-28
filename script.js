@@ -92,7 +92,7 @@ form.addEventListener("submit", (event) => {
   const transactionsAmount = inputTransactionAmount.value.trim();
 
   if (transactionName === "" || transactionsAmount === "") {
-    alert("Por favor, digite tant o nome da transação quanto o valor");
+    alert("Por favor, digite tanto o nome da transação quanto o valor");
     return;
   }
 
